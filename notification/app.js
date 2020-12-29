@@ -4,7 +4,7 @@ const SES = new AWS.SES();
 const FROM_EMAIL_ADDRESS = process.env.FROM_EMAIL_ADDRESS;
 const TO_EMAIL_ADDRESS = process.env.TO_EMAIL_ADDRESS;
 
-function sendEmailToMe(formData) {
+function constructEmail(formData) {
 
     const emailParams = {
         Source: FROM_EMAIL_ADDRESS, 
@@ -48,7 +48,7 @@ exports.sendEmail = async(event) => {
     }
     console.log(formData);
 
-    return sendEmailToMe(formData).then(data => {
+    return constructEmail(formData).then(data => {
         console.log(data);
     }).catch(error => {
         console.log(error);
