@@ -38,3 +38,4 @@ Resources:
             Stream: !Ref DynamoDBTableStreamARN
             BatchSize: 1
             StartingPosition: LATEST
+            
