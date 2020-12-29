@@ -35,6 +35,6 @@ Resources:
         Stream:
           Type: DynamoDB
           Properties:
-            Stream: !Ref DynamoDBTableStreamARN
+            Stream: '{{resolve:ssm:/service/aws-sam-pipeline-notification/dynamo/arn:1}}'
             BatchSize: 1
             StartingPosition: LATEST
