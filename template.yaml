@@ -4,7 +4,7 @@ Transform: 'AWS::Serverless-2016-10-31'
 Parameters:
   DynamoDBTableStreamARN:
     Type: String
-    Default: '{{resolve:ssm:DynamoDBTableStreamARN:1}}' 
+    Default: '{{resolve:ssm:/service/aws-sam-pipeline-notification/dynamo/arn:1}}' 
 
   FromMailIdentityName: 
     Type: String
