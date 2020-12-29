@@ -105,3 +105,6 @@ dist
 
 # AWS files
 .aws-sam
+
+# VS code
+.vscode
