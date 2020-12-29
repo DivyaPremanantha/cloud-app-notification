@@ -3,8 +3,9 @@ Transform: 'AWS::Serverless-2016-10-31'
 
 Parameters:
   DynamoDBTableStreamARN:
-    Type: String
-    Default: '{{resolve:ssm:/service/aws-sam-pipeline-notification/dynamo/arn:1}}' 
+    Description: My SSM Value
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: DynamoDBTableStreamARN
 
   FromMailIdentityName: 
     Type: String
@@ -35,6 +36,6 @@ Resources:
         Stream:
           Type: DynamoDB
           Properties:
-            Stream: '{{resolve:ssm:/service/aws-sam-pipeline-notification/dynamo/arn:1}}'
+            Stream: !Ref DynamoDBTableStreamARN
             BatchSize: 1
             StartingPosition: LATEST
