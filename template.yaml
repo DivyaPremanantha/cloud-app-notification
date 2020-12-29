@@ -36,6 +36,6 @@ Resources:
         Stream:
           Type: DynamoDB
           Properties:
-            Stream: !Ref DynamoDBTableStreamARN
+            Stream: 'arn:aws:dynamodb:us-east-1:144919642062:table/BookingTrip-staging'
             BatchSize: 1
             StartingPosition: LATEST
