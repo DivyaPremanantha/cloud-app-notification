@@ -8,9 +8,12 @@ Parameters:
 
   FromMailIdentityName: 
     Type: String
+    Default: '{{resolve:ssm-secure:FromMailIdentityName:1}}' 
 
   ToMailIdentityName: 
     Type: String
+    Default: '{{resolve:ssm-secure:ToMailIdentityName:1}}' 
+
 
 Resources:
   SendEmailFunction:
