@@ -34,17 +34,17 @@ Parameters:
     DynamoDBTableStreamARN:
       Description: Booking Trip DynamoDB Stream ARN
       Type: AWS::SSM::Parameter::Value<String>
-      Default: DynamoDBTableStreamARN
+      Default: /service/aws-sam-pipeline-notification/dynamo/arn
     
     FromMailIdentityName:
       Description: From email address
       Type: AWS::SSM::Parameter::Value<String>
-      Default: FromMailIdentityName
+      Default: /service/aws-sam-pipeline-notification/email/from
 
     ToMailIdentityName:
       Description: To email address
       Type: AWS::SSM::Parameter::Value<String>
-      Default: ToMailIdentityName
+      Default: /service/aws-sam-pipeline-notification/email/to
 
 Resources:
 
@@ -261,7 +261,7 @@ Resources:
                         StackName: aws-sam-pipeline-notification-prod
                         ChangeSetName: aws-sam-pipeline-notification-ChangeSet-prod
                       OutputArtifacts:
-                        - Name: aws-sam-pipeline-notificationprodChangeSet
+                        - Name: aws-sam-pipeline-notificationProdChangeSet
                       RunOrder: 3
 
 
