@@ -19,7 +19,7 @@ Resources:
   SendEmailFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: handler.sendEmail
+      Handler: app.sendEmail
       Runtime: nodejs12.x
       CodeUri: .
       Environment:
@@ -38,4 +38,3 @@ Resources:
             Stream: !Ref DynamoDBTableStreamARN
             BatchSize: 1
             StartingPosition: LATEST
-            
