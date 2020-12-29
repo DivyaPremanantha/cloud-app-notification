@@ -34,7 +34,7 @@ Parameters:
     DynamoDBTableStreamARN:
       Description: Booking Trip DynamoDB Stream ARN
       Type: AWS::SSM::Parameter::Value<String>
-      Default: arn
+      Default: DynamoDBTableStreamARN
     
     FromMailIdentityName:
       Description: From email address
