@@ -37,14 +37,14 @@ function sendEmailToMe(formData) {
 exports.sendEmail = async(event) => {
     console.log('Send email called');
 	console.log(event);
-	
+
     const dynamodb = event.Records[0].dynamodb;
     console.log(dynamodb);
 
     const formData = {
-        name : dynamodb.NewImage.user.S,
-        message : dynamodb.NewImage.destination.S,
-        email : dynamodb.NewImage.price.N
+        user : dynamodb.NewImage.user.S,
+        destination : dynamodb.NewImage.destination.S,
+        price : dynamodb.NewImage.price.N
     }
     console.log(formData);
 
