@@ -16,7 +16,7 @@ function sendEmailToMe(formData) {
           Body: {
             Text: {
               Charset: 'UTF-8',
-              Data: `UserID: ${formData.user}\n\n Destination: ${formData.destination}\n Price: ${formData.price}\n Thanks for using our service`,
+              Data: `UserID: ${formData.user}\nDestination: ${formData.destination}\nPrice: ${formData.price}\n Thanks for using our service`,
             },
           },
           Subject: {
