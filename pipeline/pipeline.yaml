@@ -30,21 +30,6 @@ Parameters:
       Description: Github user where the repository lives
       Type: AWS::SSM::Parameter::Value<String>
       Default: /service/aws-sam-pipeline-notification/github/user
-    
-    DynamoDBTableStreamARN:
-      Description: Booking Trip DynamoDB Stream ARN
-      Type: AWS::SSM::Parameter::Value<String>
-      Default: /service/aws-sam-pipeline-notification/dynamo/arn
-    
-    FromMailIdentityName:
-      Description: From email address
-      Type: AWS::SSM::Parameter::Value<String>
-      Default: /service/aws-sam-pipeline-notification/email/from
-
-    ToMailIdentityName:
-      Description: To email address
-      Type: AWS::SSM::Parameter::Value<String>
-      Default: /service/aws-sam-pipeline-notification/email/to
 
 Resources:
 

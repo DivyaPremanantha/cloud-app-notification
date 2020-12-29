@@ -8,13 +8,12 @@ Parameters:
     Default: DynamoDBTableStreamARN
 
   FromMailIdentityName: 
-    Type: String
-    Default: '{{resolve:ssm:FromMailIdentityName:1}}' 
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: FromMailIdentityName
 
   ToMailIdentityName: 
-    Type: String
-    Default: '{{resolve:ssm:ToMailIdentityName:1}}' 
-
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: ToMailIdentityName
 
 Resources:
   SendEmailFunction:
@@ -36,6 +35,6 @@ Resources:
         Stream:
           Type: DynamoDB
           Properties:
-            Stream: 'arn:aws:dynamodb:us-east-1:144919642062:table/BookingTrip-staging'
+            Stream: !Ref DynamoDBTableStreamARN
             BatchSize: 1
             StartingPosition: LATEST
