@@ -4,6 +4,7 @@ Transform: 'AWS::Serverless-2016-10-31'
 Parameters:
   DynamoDBTableStreamARN:
     Type: String
+    Default: '{{resolve:ssm-secure:DynamoDBTableStreamARN:1}}' 
 
   FromMailIdentityName: 
     Type: String
