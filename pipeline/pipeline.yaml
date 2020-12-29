@@ -18,18 +18,18 @@ Parameters:
     GithubRepo:
       Description: Gitub Repository name
       Type: AWS::SSM::Parameter::Value<String>
-      Default: /service/aws-sam-pipeline/github/repo
+      Default: /service/aws-sam-pipeline-notification/github/repo
 
     GithubToken:
       Description: Github OAuth Token with full permissions on admin:repo_hook and repo
       Type: AWS::SSM::Parameter::Value<String>
       NoEcho: true
-      Default: /service/aws-sam-pipeline/github/token
+      Default: /service/aws-sam-pipeline-notification/github/token
 
     GithubUser:
       Description: Github user where the repository lives
       Type: AWS::SSM::Parameter::Value<String>
-      Default: /service/aws-sam-pipeline/github/user
+      Default: /service/aws-sam-pipeline-notification/github/user
     
     DynamoDBTableStreamARN:
       Description: Booking Trip DynamoDB Stream ARN
@@ -39,12 +39,12 @@ Parameters:
     FromMailIdentityName:
       Description: From email address
       Type: AWS::SSM::Parameter::Value<String>
-      Default: premananthdivya@gmail.com
+      Default: FromMailIdentityName
 
     ToMailIdentityName:
       Description: To email address
       Type: AWS::SSM::Parameter::Value<String>
-      Default: divya.20191038@gmail.com
+      Default: ToMailIdentityName
 
 Resources:
 
@@ -70,7 +70,7 @@ Resources:
               Value: !Ref AWS::StackName
             -
               Key: "Project"
-              Value: aws-sam-pipeline
+              Value: aws-sam-pipeline-notification
         DeletionPolicy: Retain
         UpdateReplacePolicy: Retain
 
@@ -85,8 +85,8 @@ Resources:
     CodeBuildProject:
         Type: AWS::CodeBuild::Project
         Properties:
-            Name: aws-sam-pipeline
-            Description: Build project for the aws-sam-pipeline
+            Name: aws-sam-pipeline-notification
+            Description: Build project for the aws-sam-pipeline-notification
             Artifacts:
               Type: CODEPIPELINE
             Environment: 
@@ -109,7 +109,7 @@ Resources:
                 Value: !Ref AWS::StackName
               -
                 Key: "Project"
-                Value: aws-sam-pipeline
+                Value: aws-sam-pipeline-notification
 
 ########  #### ########  ######## ##       #### ##    ## ######## 
 ##     ##  ##  ##     ## ##       ##        ##  ###   ## ##       
@@ -125,7 +125,7 @@ Resources:
             ArtifactStore: 
                 Location: !Ref BuildArtifactsBucket
                 Type: S3
-            Name: aws-sam-pipeline
+            Name: aws-sam-pipeline-notification
             RoleArn: !GetAtt CodePipelineExecutionRole.Arn
             Stages:
                 - Name: Source
@@ -175,8 +175,8 @@ Resources:
                             }
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-dev
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-dev
+                        StackName: aws-sam-pipeline-notification-dev
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-dev
                         TemplatePath: BuildArtifactAsZip::packaged.yaml
                         Capabilities: CAPABILITY_IAM
                       InputArtifacts:
@@ -191,10 +191,10 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_EXECUTE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-dev
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-dev
+                        StackName: aws-sam-pipeline-notification-dev
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-dev
                       OutputArtifacts:
-                        - Name: aws-sam-pipelineDevChangeSet
+                        - Name: aws-sam-pipeline-notificationDevChangeSet
                       RunOrder: 2
                 - Name: staging
                   Actions:
@@ -207,8 +207,8 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-staging
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-staging
+                        StackName: aws-sam-pipeline-notification-staging
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-staging
                         TemplatePath: BuildArtifactAsZip::packaged.yaml
                         Capabilities: CAPABILITY_IAM
                         ParameterOverrides: |
@@ -227,10 +227,10 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_EXECUTE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-staging
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-staging
+                        StackName: aws-sam-pipeline-notification-staging
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-staging
                       OutputArtifacts:
-                        - Name: aws-sam-pipelineStagingChangeSet
+                        - Name: aws-sam-pipeline-notificationStagingChangeSet
                       RunOrder: 2
                 - Name: prod
                   Actions:
@@ -250,8 +250,8 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-prod
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-prod
+                        StackName: aws-sam-pipeline-notification-prod
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-prod
                         TemplatePath: BuildArtifactAsZip::packaged.yaml
                         Capabilities: CAPABILITY_IAM
                         ParameterOverrides: |
@@ -270,10 +270,10 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_EXECUTE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: aws-sam-pipeline-prod
-                        ChangeSetName: aws-sam-pipeline-ChangeSet-prod
+                        StackName: aws-sam-pipeline-notification-prod
+                        ChangeSetName: aws-sam-pipeline-notification-ChangeSet-prod
                       OutputArtifacts:
-                        - Name: aws-sam-pipelineprodChangeSet
+                        - Name: aws-sam-pipeline-notificationprodChangeSet
                       RunOrder: 3
 
 
@@ -310,8 +310,8 @@ Resources:
                           - 'logs:CreateLogStream'
                           - 'logs:PutLogEvents'
                         Resource:
-                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/aws-sam-pipeline'
-                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/aws-sam-pipeline:*'
+                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/aws-sam-pipeline-notification'
+                          - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/aws-sam-pipeline-notification:*'
                 - PolicyName: CodeBuildArtifactsBucket
                   PolicyDocument:
                     Version: '2012-10-17'
@@ -410,7 +410,7 @@ Resources:
                           - 'cloudformation:SetStackPolicy'
                           - 'cloudformation:ValidateTemplate'
                         Resource: 
-                          - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/aws-sam-pipeline*/*'
+                          - !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/aws-sam-pipeline-notification*/*'
                           - !Sub 'arn:aws:cloudformation:${AWS::Region}:aws:transform/Serverless-2016-10-31'
 
 

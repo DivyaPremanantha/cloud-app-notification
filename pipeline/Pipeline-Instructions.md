@@ -1,4 +1,4 @@
-# aws-sam-pipeline
+# aws-sam-pipeline-notification
 
 **This is an example of how to create a minimal pipeline for SAM based Serverless Apps**
 
@@ -18,26 +18,26 @@ Replace the placeholders with values corresponding to your GitHub Repo and Token
 
 ```bash
 aws ssm put-parameter \
-    --name "/service/aws-sam-pipeline/github/repo" \
-    --description "Github Repository name for Cloudformation Stack aws-sam-pipeline" \
+    --name "FromMailIdentityName" \
+    --description "From email address" \
+    --type "String" \
+    --value "premananthdivya@gmail.com"
+
+aws ssm put-parameter \
+    --name "/service/aws-sam-pipeline-notification/github/token" \
+    --description "Github Token for Cloudformation Stack aws-sam-pipeline-notification" \
     --type "String" \
     --value ""
 
 aws ssm put-parameter \
-    --name "/service/aws-sam-pipeline/github/token" \
-    --description "Github Token for Cloudformation Stack aws-sam-pipeline" \
-    --type "String" \
-    --value ""
-
-aws ssm put-parameter \
-    --name "/service/aws-sam-pipeline/github/user" \
-    --description "Github Username for Cloudformation Stack aws-sam-pipeline" \
+    --name "/service/aws-sam-pipeline-notification/github/user" \
+    --description "Github Username for Cloudformation Stack aws-sam-pipeline-notification" \
     --type "String" \
     --value ""
 
 ```
 
-**NOTE:** Keep in mind that these Parameters will only be available within the same region you're deploying this Pipeline stack. Also, if these values ever change you will need to [update these parameters](https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html) as well as update the "aws-sam-pipeline" Cloudformation stack.
+**NOTE:** Keep in mind that these Parameters will only be available within the same region you're deploying this Pipeline stack. Also, if these values ever change you will need to [update these parameters](https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html) as well as update the "aws-sam-pipeline-notification" Cloudformation stack.
 
 ## Pipeline creation
 
@@ -80,7 +80,7 @@ Before we create this 3-environment Pipeline through Cloudformation you may want
                 Owner: !Ref GithubUser
                 Repo: !Ref GithubRepo
                 Branch: master
-                OAuthToken: !Ref GithubToken
+                OAuthToken: !Ref GithubTokenR
                 OutputArtifacts:
                 - Name: SourceCodeAsZip
                 RunOrder: 1
@@ -91,7 +91,7 @@ Run the following AWS CLI command to create your first pipeline for your SAM bas
 
 ```bash
 aws cloudformation create-stack \
-    --stack-name aws-sam-pipeline \
+    --stack-name aws-sam-pipeline-notification \
     --template-body file://pipeline.yaml \
     --capabilities CAPABILITY_NAMED_IAM
 ```
@@ -100,7 +100,7 @@ This may take a couple of minutes to complete, therefore give it a minute or two
 
 ```bash
 aws cloudformation describe-stacks \
-    --stack-name aws-sam-pipeline \
+    --stack-name aws-sam-pipeline-notification \
     --query 'Stacks[].Outputs'
 ```
 
