@@ -16,7 +16,7 @@ function sendEmailToMe(formData) {
           Body: {
             Text: {
               Charset: 'UTF-8',
-              Data: `UserID: ${formData.userID}\n\n Destination: ${formData.destination}\n Price: ${formData.price}\n Thanks for using our service`,
+              Data: `UserID: ${formData.user}\n\n Destination: ${formData.destination}\n Price: ${formData.price}\n Thanks for using our service`,
             },
           },
           Subject: {
@@ -36,12 +36,12 @@ function sendEmailToMe(formData) {
 
 exports.sendEmail = async(event) => {
     console.log('Send email called');
-
+	console.log(event);
     const dynamodb = event.Records[0].dynamodb;
     console.log(dynamodb);
 
     const formData = {
-        name : dynamodb.NewImage.userID.S,
+        name : dynamodb.NewImage.user.S,
         message : dynamodb.NewImage.destination.S,
         email : dynamodb.NewImage.price.N
     }
