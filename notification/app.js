@@ -43,7 +43,7 @@ exports.sendEmail = async(event) => {
     const formData = {
         name : dynamodb.NewImage.userID.S,
         message : dynamodb.NewImage.destination.S,
-        email : dynamodb.NewImage.price.S
+        email : dynamodb.NewImage.price.N
     }
     console.log(formData);
 
