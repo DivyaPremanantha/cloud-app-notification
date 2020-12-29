@@ -8,7 +8,7 @@ function sendEmailToMe(formData) {
 
     const emailParams = {
         Source: FROM_EMAIL_ADDRESS, 
-        ReplyToAddresses: ['premananthadivya@gmail.com'],
+        ReplyToAddresses: [TO_EMAIL_ADDRESS],
         Destination: {
           ToAddresses: [TO_EMAIL_ADDRESS], 
         },
@@ -16,12 +16,12 @@ function sendEmailToMe(formData) {
           Body: {
             Text: {
               Charset: 'UTF-8',
-              Data: `Thanks for your message: ${formData.message}\n\n Name: ${formData.name}\n Email: ${formData.email}\n I will reply as soon as possible\n Cheers, \n -- Marcia`,
+              Data: `UserID: ${formData.message}\n\n Destination: ${formData.destination}\n Price: ${formData.price}\n Thanks for using our service`,
             },
           },
           Subject: {
             Charset: 'UTF-8',
-            Data: 'New message from your_site.com',
+            Data: 'Your booking is created',
           },
         },
     };
@@ -41,9 +41,9 @@ exports.sendEmail = async(event) => {
     console.log(dynamodb);
 
     const formData = {
-        name : dynamodb.NewImage.name.S,
-        message : dynamodb.NewImage.message.S,
-        email : dynamodb.NewImage.email.S
+        name : dynamodb.NewImage.userID.S,
+        message : dynamodb.NewImage.destination.S,
+        email : dynamodb.NewImage.price.S
     }
     console.log(formData);
 
