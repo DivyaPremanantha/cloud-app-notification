@@ -71,7 +71,7 @@ function constructPaymentEmail(formData) {
         Body: {
           Text: {
             Charset: 'UTF-8',
-            Data: `Customer Name: ${formData.customerName}\nFare: ${formData.fare}\nPayment Status: ${formData.paymentStatus}\n\n--Thanks for using our service`,
+            Data: `Customer Name: ${formData.customerName}\nFare: ${formData.fare}\n\n--Thanks for using our service`,
           },
         },
         Subject: {
@@ -99,7 +99,6 @@ exports.sendPaymentEmail = async(event) => {
   const formData = {
     customerName: dynamodb.NewImage.customerName.S,
     fare: dynamodb.NewImage.fare.N,
-    paymentStatus: dynamodb.NewImage.paymentStatus.S
   }
   console.log(formData);
 
