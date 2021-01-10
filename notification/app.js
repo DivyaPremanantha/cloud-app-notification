@@ -21,7 +21,7 @@ function constructBookingEmail(formData) {
           },
           Subject: {
             Charset: 'UTF-8',
-            Data: 'Booking is created',
+            Data: 'Booking created',
           },
         },
     };
@@ -76,7 +76,7 @@ function constructPaymentEmail(formData) {
         },
         Subject: {
           Charset: 'UTF-8',
-          Data: 'Booking is created',
+          Data: 'Payment recieved',
         },
       },
   };
@@ -127,7 +127,7 @@ function constructOfferEmail(formData) {
         },
         Subject: {
           Charset: 'UTF-8',
-          Data: 'Booking is created',
+          Data: 'You have a offer',
         },
       },
   };
