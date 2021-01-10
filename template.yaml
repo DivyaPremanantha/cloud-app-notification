@@ -82,6 +82,7 @@ Resources:
               Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, paymentArn]
             BatchSize: 1
             StartingPosition: LATEST
+            
   SendPaymentEmailFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
