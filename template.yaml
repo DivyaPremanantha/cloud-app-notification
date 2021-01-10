@@ -58,7 +58,8 @@ Resources:
               Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, bookingArn]
             BatchSize: 1
             StartingPosition: LATEST
-    SendPaymentEmailFunction:
+
+  SendPaymentEmailFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: app.sendPaymentEmail
@@ -81,7 +82,7 @@ Resources:
               Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, paymentArn]
             BatchSize: 1
             StartingPosition: LATEST
-    SendPaymentEmailFunction:
+  SendPaymentEmailFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: app.sendOfferEmail
