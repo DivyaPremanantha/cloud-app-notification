@@ -15,6 +15,15 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Default: ToMailIdentityName
 
+Mappings:
+  ResourcesName:
+    dev:
+      arn: BookingTripDev
+    staging:
+      arn: BookingTripStaging
+    prod:
+      arn: BookingTripProd
+
 Resources:
   SendEmailFunction:
     Type: 'AWS::Serverless::Function'
@@ -35,6 +44,7 @@ Resources:
         Stream:
           Type: DynamoDB
           Properties:
-            Stream: !Ref DynamoDBTableStreamARN
+            Stream:               
+              Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, arn]
             BatchSize: 1
             StartingPosition: LATEST
