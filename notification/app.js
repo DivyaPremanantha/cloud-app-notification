@@ -133,7 +133,6 @@ function constructOfferEmail(formData) {
   };
 
   console.log(emailParams)
-
   const promise =  SES.sendOfferEmail(emailParams).promise();
   console.log(promise);
   return promise
