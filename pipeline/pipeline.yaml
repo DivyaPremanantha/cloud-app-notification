@@ -229,7 +229,7 @@ Resources:
                     - Name: CreateChangeSet
                       ParameterOverrides: |
                             {
-                              "Environment" : "dev"
+                              "Environment" : "prod"
                             }
                       ActionTypeId:
                         Category: Deploy
