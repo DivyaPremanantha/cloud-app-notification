@@ -36,7 +36,7 @@ function constructBookingEmail(formData) {
 
 exports.sendBookingEmail = async(event) => {
     console.log('Send email called');
-	console.log(event);
+	  console.log(event);
 
     const dynamodb = event.Records[0].dynamodb;
     console.log(dynamodb);
@@ -104,6 +104,55 @@ console.log(event);
   console.log(formData);
 
   return constructPaymentEmail(formData).then(data => {
+      console.log(data);
+  }).catch(error => {
+      console.log(error);
+  });
+}
+
+function constructOfferEmail(formData) {
+
+  const emailParams = {
+      Source: FROM_EMAIL_ADDRESS, 
+      ReplyToAddresses: [TO_EMAIL_ADDRESS],
+      Destination: {
+        ToAddresses: [TO_EMAIL_ADDRESS], 
+      },
+      Message: {
+        Body: {
+          Text: {
+            Charset: 'UTF-8',
+            Data: `Customer Name: ${formData.customerName}\nOffer: ${formData.message}\n\n--Thanks for using our service`,
+          },
+        },
+        Subject: {
+          Charset: 'UTF-8',
+          Data: 'Booking is created',
+        },
+      },
+  };
+
+  console.log(emailParams)
+
+  const promise =  SES.sendOfferEmail(emailParams).promise();
+  console.log(promise);
+  return promise
+}
+
+exports.sendOfferEmail = async(event) => {
+  console.log('Send email called');
+  console.log(event);
+
+  const dynamodb = event.Records[0].dynamodb;
+  console.log(dynamodb);
+
+  const formData = {
+    customerName: dynamodb.NewImage.customerName.S,
+    message: dynamodb.NewImage.message.S
+  }
+  console.log(formData);
+
+  return constructOfferEmail(formData).then(data => {
       console.log(data);
   }).catch(error => {
       console.log(error);

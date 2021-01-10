@@ -24,12 +24,15 @@ Mappings:
     dev:
       bookingArn: BookingTripDevArn
       paymentArn: PaymentDevArn
+      offerArn: OfferDevArn
     staging:
       bookingArn: BookingTripStagingArn
       paymentArn: PaymentStagingArn
+      offerArn: OfferStagingArn
     prod:
       bookingArn: BookingTripProdArn
       paymentArn: PaymentProdArn
+      offerArn: OfferProdArn
 
 Resources:
   SendBookingEmailFunction:
@@ -76,5 +79,28 @@ Resources:
           Properties:
             Stream:               
               Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, paymentArn]
+            BatchSize: 1
+            StartingPosition: LATEST
+    SendPaymentEmailFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.sendOfferEmail
+      Runtime: nodejs12.x
+      CodeUri: notification/
+      Environment:
+        Variables:
+          FROM_EMAIL_ADDRESS: !Ref FromMailIdentityName
+          TO_EMAIL_ADDRESS: !Ref ToMailIdentityName
+      Policies:
+        - SESCrudPolicy:
+            IdentityName: !Ref FromMailIdentityName
+        - SESCrudPolicy:
+            IdentityName: !Ref ToMailIdentityName
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream:               
+              Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, offerArn]
             BatchSize: 1
             StartingPosition: LATEST
