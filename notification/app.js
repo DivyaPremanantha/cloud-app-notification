@@ -28,7 +28,7 @@ function constructBookingEmail(formData) {
 
     console.log(emailParams)
 
-    const promise =  SES.sendBookingEmail(emailParams).promise();
+    const promise =  SES.sendEmail(emailParams).promise();
     console.log(promise);
     return promise
 }
@@ -83,7 +83,7 @@ function constructPaymentEmail(formData) {
 
   console.log(emailParams)
 
-  const promise =  SES.sendPaymentEmail(emailParams).promise();
+  const promise =  SES.sendEmail(emailParams).promise();
   console.log(promise);
   return promise
 }
@@ -133,7 +133,7 @@ function constructOfferEmail(formData) {
   };
 
   console.log(emailParams)
-  const promise =  SES.sendOfferEmail(emailParams).promise();
+  const promise =  SES.sendEmail(emailParams).promise();
   console.log(promise);
   return promise
 }
