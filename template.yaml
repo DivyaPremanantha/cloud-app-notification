@@ -10,7 +10,7 @@ Parameters:
       - staging
       - prod
     Description: Environment of this stack of resources
-    
+
   FromMailIdentityName: 
     Type: AWS::SSM::Parameter::Value<String>
     Default: FromMailIdentityName
@@ -22,17 +22,20 @@ Parameters:
 Mappings:
   ResourcesName:
     dev:
-      arn: BookingTripDev
+      bookingArn: BookingTripDevArn
+      paymentArn: PaymentDevArn
     staging:
-      arn: BookingTripStaging
+      bookingArn: BookingTripStagingArn
+      paymentArn: PaymentStagingArn
     prod:
-      arn: BookingTripProd
+      bookingArn: BookingTripProdArn
+      paymentArn: PaymentProdArn
 
 Resources:
-  SendEmailFunction:
+  SendBookingEmailFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: app.sendEmail
+      Handler: app.sendBookingEmail
       Runtime: nodejs12.x
       CodeUri: notification/
       Environment:
@@ -49,6 +52,29 @@ Resources:
           Type: DynamoDB
           Properties:
             Stream:               
-              Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, arn]
+              Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, bookingArn]
+            BatchSize: 1
+            StartingPosition: LATEST
+    SendPaymentEmailFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.sendPaymentEmail
+      Runtime: nodejs12.x
+      CodeUri: notification/
+      Environment:
+        Variables:
+          FROM_EMAIL_ADDRESS: !Ref FromMailIdentityName
+          TO_EMAIL_ADDRESS: !Ref ToMailIdentityName
+      Policies:
+        - SESCrudPolicy:
+            IdentityName: !Ref FromMailIdentityName
+        - SESCrudPolicy:
+            IdentityName: !Ref ToMailIdentityName
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream:               
+              Fn::ImportValue: !FindInMap [ResourcesName, !Ref Environment, paymentArn]
             BatchSize: 1
             StartingPosition: LATEST
