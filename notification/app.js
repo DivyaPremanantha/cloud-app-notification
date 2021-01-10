@@ -16,12 +16,12 @@ function constructEmail(formData) {
           Body: {
             Text: {
               Charset: 'UTF-8',
-              Data: `Customer Name: ${formData.customerName}\nFrom: ${formData.fromLocation}\nTo: ${formData.toLocation}\nTrip Sart Time: ${formData.tripStartTime}\nTrip End Time: ${formData.tripEndTime}\nFare: ${formData.fare}\n Thanks for using our service`,
+              Data: `Customer Name: ${formData.customerName}\nFrom: ${formData.fromLocation}\nTo: ${formData.toLocation}\nTrip Sart Time: ${formData.tripStartTime}\nTrip End Time: ${formData.tripEndTime}\nFare: ${formData.fare}\Payment Status: ${formData.paymentStatus}\n\n--Thanks for using our service`,
             },
           },
           Subject: {
             Charset: 'UTF-8',
-            Data: 'Your booking is created',
+            Data: 'Booking is created',
           },
         },
     };
@@ -47,7 +47,8 @@ exports.sendEmail = async(event) => {
       toLocation: dynamodb.NewImage.toLocation.S,
       tripStartTime: dynamodb.NewImage.tripStartTime.S,
       tripEndTime: dynamodb.NewImage.tripEndTime.S,
-      fare: dynamodb.NewImage.fare.N
+      fare: dynamodb.NewImage.fare.N,
+      paymentStatus: dynamodb.NewImage.paymentStatus.S
     }
     console.log(formData);
 
