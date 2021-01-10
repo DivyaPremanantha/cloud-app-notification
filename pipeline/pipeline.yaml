@@ -227,16 +227,16 @@ Resources:
                         Version: "1"
                       RunOrder: 1
                     - Name: CreateChangeSet
-                      ParameterOverrides: |
-                            {
-                              "Environment" : "prod"
-                            }
                       ActionTypeId:
                         Category: Deploy
                         Owner: AWS
                         Provider: CloudFormation
                         Version: "1"
                       Configuration:
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "prod"
+                            }
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
                         StackName: aws-sam-pipeline-notification-prod
