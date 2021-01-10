@@ -16,7 +16,7 @@ function constructEmail(formData) {
           Body: {
             Text: {
               Charset: 'UTF-8',
-              Data: `Customer Name: ${formData.customerName}\nDestination: ${formData.destination}\nTrip Sart Time: ${formData.tripStartTime}\nTrip End Time: ${formData.tripEndTime}\nFare: ${formData.fare}\n Thanks for using our service`,
+              Data: `Customer Name: ${formData.customerName}\nFrom: ${formData.fromLocation}\nTo: ${formData.toLocation}\nTrip Sart Time: ${formData.tripStartTime}\nTrip End Time: ${formData.tripEndTime}\nFare: ${formData.fare}\n Thanks for using our service`,
             },
           },
           Subject: {
