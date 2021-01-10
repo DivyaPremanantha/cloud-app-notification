@@ -42,9 +42,12 @@ exports.sendEmail = async(event) => {
     console.log(dynamodb);
 
     const formData = {
-        user : dynamodb.NewImage.user.S,
-        destination : dynamodb.NewImage.destination.S,
-        price : dynamodb.NewImage.price.N
+      customerName: dynamodb.NewImage.customerName.S,
+      fromLocation: dynamodb.NewImage.fromLocation.S,
+      toLocation: dynamodb.NewImage.toLocation.S,
+      tripStartTime: dynamodb.NewImage.tripStartTime.S,
+      tripEndTime: dynamodb.NewImage.tripEndTime.S,
+      fare: dynamodb.NewImage.fare.N
     }
     console.log(formData);
 
