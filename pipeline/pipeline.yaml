@@ -154,6 +154,10 @@ Resources:
                         Version: "1"
                       Configuration:
                       # More info on Possible Values for Cloudformation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html#w2ab2c13c13b9
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "dev"
+                            }
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
                         StackName: aws-sam-pipeline-notification-dev
@@ -186,6 +190,10 @@ Resources:
                         Provider: CloudFormation
                         Version: "1"
                       Configuration:
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "staging"
+                            }
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
                         StackName: aws-sam-pipeline-notification-staging
@@ -219,6 +227,10 @@ Resources:
                         Version: "1"
                       RunOrder: 1
                     - Name: CreateChangeSet
+                      ParameterOverrides: |
+                            {
+                              "Environment" : "dev"
+                            }
                       ActionTypeId:
                         Category: Deploy
                         Owner: AWS
